@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio del Torneo</title>
+    <style>
+        /* Estilos generales */
+        body {
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: #00ff99;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #000;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            transition: opacity 2s ease;
+            /* Efecto de fade-out */
+        }
+
+        .main-content {
+            text-align: center;
+            z-index: 1;
+            position: relative;
+            top: -20px;
+            /* Ajuste para mover la sección arriba */
+        }
+
+        h1 {
+            font-size: 2em;
+            text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99;
+            margin-bottom: 20px;
+            /* Para separar el título de los botones */
+        }
+
+        /* Botones */
+        .start-button,
+        .new-players-button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: #00ff99;
+            background-color: transparent;
+            border: 1px solid #00ff99;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: absolute;
+            top: -80px;
+        }
+
+        .new-players-button {
+            left: -200px;
+        }
+
+        .start-button {
+            right: -200px;
+        }
+
+        .start-button:hover,
+        .new-players-button:hover {
+            color: #ff0099;
+            border-color: #ff0099;
+            text-shadow: 0 0 5px #ff0099, 0 0 10px #ff0099;
+        }
+
+        /* Estilo cyberpunk para Confirmar Jugadores */
+        .confirm-button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            color: #00e0ff;
+            background-color: transparent;
+            border: 1px solid #00e0ff;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 5px #00e0ff, 0 0 10px #00e0ff;
+        }
+
+        .confirm-button:hover {
+            color: #e0ff00;
+            border-color: #e0ff00;
+            text-shadow: 0 0 5px #e0ff00, 0 0 10px #e0ff00;
+        }
+
+        /* Formulario desplegable de jugadores */
+        .player-form {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+            position: absolute;
+            top: 50px;
+            left: -200px;
+            /* Para alinearlo debajo del botón "Nuevos Jugadores" */
+        }
+
+        /* Input estilo cyberpunk */
+        .player-input {
+            width: 200px;
+            padding: 8px;
+            margin: 5px 0;
+            color: #00ff99;
+            background-color: transparent;
+            border: 1px solid #00ff99;
+            border-radius: 10px;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1em;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .player-input:focus {
+            border-color: #ff0099;
+            box-shadow: 0 0 5px #ff0099, 0 0 10px #ff0099;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Video de fondo en loop -->
+    <video autoplay muted loop class="video-background" id="videoBackground">
+        <source src="VideoFondoPaginaHead.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de video.
+    </video>
+
+    <div class="main-content">
+        <h1>Bienvenido al Torneo</h1>
+
+        <!-- Botón para desplegar el formulario de jugadores -->
+        <button class="new-players-button" onclick="togglePlayerForm()">Nuevos Jugadores</button>
+
+        <!-- Formulario de jugadores desplegable debajo del botón -->
+        <div class="player-form" id="playerForm">
+            <input type="text" id="player1" class="player-input" placeholder="Nombre Jugador 1">
+            <input type="text" id="player2" class="player-input" placeholder="Nombre Jugador 2">
+            <input type="text" id="player3" class="player-input" placeholder="Nombre Jugador 3">
+            <input type="text" id="player4" class="player-input" placeholder="Nombre Jugador 4">
+            <button class="confirm-button" onclick="guardarNombres()">Confirmar Jugadores</button>
+        </div>
+
+        <!-- Botón para comenzar el torneo con sonido -->
+        <button class="start-button" onclick="iniciarTorneo()">Comenzar Torneo</button>
+    </div>
+
+    <audio id="startSound" src="sonidoInicio.mp3"></audio>
+
+    <script>
+        // Función para desplegar/ocultar el formulario de jugadores
+        function togglePlayerForm() {
+            const playerForm = document.getElementById("playerForm");
+            const videoBackground = document.getElementById("videoBackground");
+            playerForm.style.display = playerForm.style.display === "none" ? "flex" : "none";
+
+            // Aplicar fade-out al video cuando el formulario aparece
+            if (playerForm.style.display === "flex") {
+                videoBackground.style.opacity = "0.3";
+            } else {
+                videoBackground.style.opacity = "1"; // Restaurar opacidad cuando se oculta el formulario
+            }
+        }
+
+        // Guarda los nombres de los jugadores en localStorage
+        function guardarNombres() {
+            const players = [
+                document.getElementById("player1").value,
+                document.getElementById("player2").value,
+                document.getElementById("player3").value,
+                document.getElementById("player4").value
+            ];
+            localStorage.setItem("playerNames", JSON.stringify(players));
+            alert("Jugadores guardados: " + players.join(", "));
+        }
+
+        // Reproduce sonido y luego redirige a la página del torneo
+        function iniciarTorneo() {
+            const startSound = document.getElementById("startSound");
+            startSound.play();
+
+            setTimeout(() => {
+                irAlTorneo();
+            }, 6000); // Espera 6 segundos antes de cambiar de página
+        }
+
+        // Redirige a la página del torneo
+        function irAlTorneo() {
+            window.location.href = "PruebaEquipo.html";
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copa Mundial Fifa Old School</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000;
+            color: #fff;
+        }
+
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            transition: opacity 2s ease;
+            /* Efecto de fade-out */
+        }
+
+        /* Contenedor principal */
+        .container {
+            text-align: center;
+            background-color: #333333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
+            width: 400px;
+            margin-right: 300px;
+        }
+
+        /* Contenedor del leaderboard a la derecha  */
+        .leaderboard {
+            position: absolute;
+            right: 70px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #444444;
+            width: 200px;
+            padding: 15px;
+            border-radius: 10px;
+            color: #fff;
+        }
+
+        /* Título del leaderboard */
+        .leaderboard h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #ffcc00;
+        }
+
+        /* Lista de jugadores y puntuaciones */
+        .leaderboard ul {
+            list-style-type: none;
+            padding: 0;
+            font-size: 16px;
+        }
+
+        /* Estilo del título principal */
+        h1 {
+            color: #000;
+            font-weight: bold;
+            text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000;
+        }
+
+        h2 {
+            color: #f8f8f8;
+            font-style: italic;
+        }
+
+        /* Botón de reset, estilizado para que resalte */
+        #resetButton {
+            position: relative;
+            top: -150px;
+            left: 126px;
+            background-color: #ff4d4d;
+            color: white;
+            font-weight: bold;
+            padding: 10px 20px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        /* Forma con triángulos a los lados */
+        #resetButton::before,
+        #resetButton::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 100%;
+            border-style: solid;
+            transition: 0.3s;
+        }
+
+        #resetButton::before {
+            left: -10px;
+            border-width: 0 10px 100% 0;
+            border-right-color: #ff4d4d;
+        }
+
+        #resetButton::after {
+            right: -10px;
+            border-width: 0 0 100% 10px;
+            border-left-color: #ff4d4d;
+        }
+
+        #resetButton:hover {
+            background-color: #cc0000;
+        }
+
+        /* Estilo de botones cyberpunk con triángulos en los extremos */
+        .button {
+            padding: 10px 20px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #800040;
+            cursor: pointer;
+            text-transform: uppercase;
+            position: relative;
+            border: 2px solid #ff0040; /* Borde rojo neón */
+            outline: none;
+            clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff; /* Sombra cian */
+            transition: all 0.3s ease;
+        }
+
+        /* Efecto al pasar el cursor sobre el botón */
+        .button:hover {
+            color: #ff0040;
+            background-color: #000;
+            border-color: #ff0040; /* Mantener el borde rojo al hacer hover */
+            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff; /* Sombra cian solo en hover */
+        }
+
+        /* Botones específicos con margen adicional */
+        .button-random {
+            margin-bottom: 20px;
+        }
+
+        .button-results {
+            margin-top: 10px;
+        }
+
+        .button-registrar {
+            margin-top: 20px; /* Añade un margen superior para separar el botón */
+            background-color: #800040; /* Fondo similar a los otros botones */
+            }
+
+        /* Estilos para el botón dentro del formulario de resultados */
+        #resultForm button {
+            padding: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #fff;
+            background-color: #800040;
+            cursor: pointer;
+            text-transform: uppercase;
+            position: relative;
+            border: 1px solid #ff0040; /* Borde rojo neón */
+            outline: none;
+            clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+            margin-top: 10px; /* Espacio adicional para mejorar la legibilidad */
+            transition: all 0.3s ease;
+        }
+
+        /* Efecto al pasar el cursor sobre el botón del formulario */
+        #resultForm button:hover {
+            color: #ff0040;
+            background-color: #000;
+            border-color: #ff0040;
+            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff; /* Sombra cian en hover individual */
+        }
+
+        /* Estilo para el botón de reset */
+        #resetButton {
+            position: relative;
+            top: -150px;
+            left: 126px;
+            background-color: transparent;
+            color: white;
+            font-weight: bold;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-transform: uppercase;
+            outline: none;
+            border: 1px solid #ff0040; /* Borde rojo neón */
+            clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+            transition: all 0.3s ease;
+        }
+
+        #resetButton:hover {
+            color: #ff0040;
+            background-color: #000;
+            border-color: #ff0040;
+            box-shadow: 0 0 15px #ff0040, 0 0 30px #ff0040, 0 0 45px #ff0040;
+        }
+
+        /* Estilos para el <select> */
+        select {
+            background-color: #0d0d0d;
+            color: #00eaff;
+            border: 2px solid #00eaff;
+            padding: 8px;
+            font-size: 10px;
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+            outline: none;
+            box-shadow: 0px 0px 10px rgba(0, 234, 255, 0.7), 
+                        0px 0px 20px rgba(0, 234, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        /* Efecto hover en el <select> */
+        select:hover {
+            border-color: #ff00ff;
+            box-shadow: 0px 0px 10px rgba(255, 0, 255, 0.7),
+                        0px 0px 20px rgba(255, 0, 255, 0.5);
+        }
+
+        /* Opciones dentro del <select> */
+        select option {
+            background-color: #1a1a1a;
+            color: #00eaff;
+        }
+
+
+        /* Sección de equipos */
+        .team-section {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .team {
+            text-align: center;
+        }
+
+        /* Estilos de los logos */
+        .team-logo {
+            width: 80px;
+            height: 80px;
+            margin: 10px auto;
+            display: block;
+        }
+
+        .team-name {
+            font-size: 20px;
+            margin-top: 10px;
+            color: #f8f8f8;
+        }
+
+        .player-label {
+            font-size: 18px;
+            color: #ccc;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Video de fondo en loop -->
+    <video autoplay muted loop class="video-background" id="videoBackground">
+        <source src="VideoEquipos.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de video.
+    </video>
+    <!-- Contenedor principal -->
+    <div class="container">
+        <h1>Copa Mundial Fifa Old School</h1>
+        <h2>Nuevos equipos</h2>
+        <button class="button button-random" onclick="showRandomTeams()">Random</button>
+
+        <ul id="playersList"></ul>
+
+        <!-- Sección de equipos -->
+        <div class="team-section">
+            <div class="team">
+                <p class="player-label">Jugador 1</p>
+                <img id="teamLogo1" class="team-logo" src="" alt="Logo del equipo de Jugador 1" style="display: none;">
+                <p class="team-name" id="teamName1"></p>
+            </div>
+            <div class="team">
+                <p class="player-label">Jugador 2</p>
+                <img id="teamLogo2" class="team-logo" src="" alt="Logo del equipo de Jugador 2" style="display: none;">
+                <p class="team-name" id="teamName2"></p>
+            </div>
+        </div>
+
+        <!-- Botón de cargar resultados -->
+        <button class="button button-results" onclick="toggleAndLoadResults()">Cargar Resultados</button>
+
+        <!-- Leaderboard -->
+        <div class="leaderboard" id="leaderboard">
+            <h3>Leaderboard</h3>
+            <ul id="leaderboardList"></ul>
+        </div>
+
+        <!-- Formulario de selección -->
+        <div id="resultForm">
+            <label for="player1Select">Jugador 1:</label>
+            <select id="player1Select"></select>
+
+            <label for="player2Select">Jugador 2:</label>
+            <select id="player2Select"></select>
+
+            <label for="winnerSelect">Ganador:</label>
+            <select id="winnerSelect"></select>
+
+            <button class="button button-registrar" onclick="registrarResultado()">Registrar Resultado</button>
+        </div>
+    </div>
+
+    <button onclick="confirmarReset()" id="resetButton" class="button">Resetear Leaderboard</button>
+
+    <script>
+        let jugadores = {};
+        const savedPlayers = JSON.parse(localStorage.getItem("playerNames")) || [];
+        savedPlayers.forEach(player => {
+            jugadores[player] = { partidasJugadas: 0, partidasGanadas: 0 };
+        });
+
+        function toggleAndLoadResults() {
+            const resultForm = document.getElementById("resultForm");
+            if (resultForm.style.visibility === "hidden" || resultForm.style.visibility === "") {
+                cargarJugadoresEnSelectores();
+                resultForm.style.visibility = "visible";
+                resultForm.style.opacity = 1;
+            } else {
+                registrarResultado();
+            }
+        }
+
+        function registrarResultado() {
+            const player1 = document.getElementById("player1Select").value;
+            const player2 = document.getElementById("player2Select").value;
+            const winner = document.getElementById("winnerSelect").value;
+
+            if (jugadores[player1] && jugadores[player2] && jugadores[winner]) {
+                jugadores[player1].partidasJugadas++;
+                jugadores[player2].partidasJugadas++;
+                jugadores[winner].partidasGanadas++;
+
+                localStorage.setItem("resultados", JSON.stringify(jugadores));
+                actualizarLeaderboard();
+
+                const resultForm = document.getElementById("resultForm");
+                resultForm.style.opacity = 0;
+                setTimeout(() => {
+                    resultForm.style.visibility = "hidden";
+                }, 500);
+            }
+        }
+
+        function actualizarLeaderboard() {
+            const leaderboardList = document.getElementById("leaderboardList");
+            leaderboardList.innerHTML = "";
+
+            const sortedPlayers = Object.entries(jugadores).sort((a, b) => b[1].partidasGanadas - a[1].partidasGanadas);
+
+            sortedPlayers.forEach(([name, stats]) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${name} - Jugadas: ${stats.partidasJugadas}, Ganadas: ${stats.partidasGanadas}`;
+                leaderboardList.appendChild(listItem);
+            });
+        }
+
+        function cargarJugadoresEnSelectores() {
+            const player1Select = document.getElementById("player1Select");
+            const player2Select = document.getElementById("player2Select");
+            const winnerSelect = document.getElementById("winnerSelect");
+
+            [player1Select, player2Select, winnerSelect].forEach(select => select.innerHTML = "");
+
+            Object.keys(jugadores).forEach(name => {
+                const option1 = document.createElement("option");
+                const option2 = document.createElement("option");
+                const option3 = document.createElement("option");
+
+                option1.value = name;
+                option1.textContent = name;
+                option2.value = name;
+                option2.textContent = name;
+                option3.value = name;
+                option3.textContent = name;
+
+                player1Select.appendChild(option1);
+                player2Select.appendChild(option2);
+                winnerSelect.appendChild(option3);
+            });
+        }
+
+        function showRandomTeams() {
+            const teams = [
+                { name: "Argentina", logo: "https://fifastatic.fifaindex.com/FIFA24/teams/dark/1369.png" },
+                { name: "Francia", logo: "https://fifastatic.fifaindex.com/FIFA24/teams/dark/1335.png" },
+                { name: "Alemania", logo: "https://fifastatic.fifaindex.com/FIFA24/teams/dark/1337.png" },
+                { name: "Brasil", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Logo_Brasil.png" },
+                { name: "España", logo: "https://fifastatic.fifaindex.com/FIFA24/teams/dark/1362.png" },
+                { name: "Portugal", logo: "https://fifastatic.fifaindex.com/FIFA24/teams/dark/1354.png" },
+                { name: "Inglaterra", logo: "https://fifastatic.fifaindex.com/FIFA24/teams/dark/1318.png" },
+                { name: "Italia", logo: "https://fifastatic.fifaindex.com/FIFA24/teams/dark/1343.png" },
+                { name: "FC Barcelona", logo: "https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg" },
+                { name: "Manchester City", logo: "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg" },
+                { name: "Real Madrid", logo: "https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg" },
+                { name: "Paris Saint-Germain", logo: "https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg" },
+                { name: "Bayern München", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1f/FC_Bayern_München_logo_%282017%29.svg" },
+                { name: "Atlético de Madrid", logo: "https://upload.wikimedia.org/wikipedia/en/f/f4/Atletico_Madrid_2017_logo.svg" },
+                { name: "Chelsea", logo: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg" },
+                { name: "Arsenal", logo: "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg" },
+                { name: "Liverpool", logo: "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg" },
+                { name: "Manchester United", logo: "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg" },
+                { name: "Borussia Dortmund", logo: "https://upload.wikimedia.org/wikipedia/commons/6/67/Borussia_Dortmund_logo.svg" },
+                { name: "Napoli", logo: "https://upload.wikimedia.org/wikipedia/commons/2/28/SSC_Neapel.svg" },
+                { name: "Juventus de Turín", logo: "https://upload.wikimedia.org/wikipedia/en/6/6a/Juventus_FC_2017_logo.svg" }
+            ];
+
+        let team1, team2;
+        do {
+            team1 = teams[Math.floor(Math.random() * teams.length)];
+            team2 = teams[Math.floor(Math.random() * teams.length)];
+        } while (team1.name === team2.name);  // Evita seleccionar el mismo equipo dos veces
+
+        document.getElementById("teamLogo1").src = team1.logo;
+        document.getElementById("teamLogo1").style.display = "block";
+        document.getElementById("teamName1").textContent = team1.name;
+
+        document.getElementById("teamLogo2").src = team2.logo;
+        document.getElementById("teamLogo2").style.display = "block";
+        document.getElementById("teamName2").textContent = team2.name;
+    }
+
+
+
+        function confirmarReset() {
+            if (confirm("¿Estás seguro de que deseas resetear el leaderboard?")) {
+                jugadores = {};
+                localStorage.removeItem("resultados");
+                localStorage.removeItem("playerNames");
+                actualizarLeaderboard();
+            }
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            const storedResultados = localStorage.getItem("resultados");
+            if (storedResultados) {
+                jugadores = JSON.parse(storedResultados);
+                actualizarLeaderboard();
+            }
+        });
+    </script>
+</body>
+
+</html>
