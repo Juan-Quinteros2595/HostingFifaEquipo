@@ -6,272 +6,272 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Copa Mundial Fifa Old School</title>
     <style>
-        /* Estilos generales */
+    /* Estilos generales */
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        background-color: #000;
+        color: #fff;
+    }
+
+    .video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        transition: opacity 2s ease;
+    }
+
+    /* Contenedor principal */
+    .container {
+        text-align: center;
+        background-color: #333333;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    /* Contenedor del leaderboard */
+    .leaderboard {
+        background-color: #444444;
+        width: 100%;
+        max-width: 300px;
+        padding: 15px;
+        border-radius: 10px;
+        color: #fff;
+        margin: 20px auto;
+        text-align: center;
+    }
+
+    /* Título del leaderboard */
+    .leaderboard h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #ffcc00;
+    }
+
+    /* Lista de jugadores y puntuaciones */
+    .leaderboard ul {
+        list-style-type: none;
+        padding: 0;
+        font-size: 16px;
+    }
+
+    /* Estilo del título principal */
+    h1 {
+        color: #000;
+        font-weight: bold;
+        text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000;
+    }
+
+    h2 {
+        color: #f8f8f8;
+        font-style: italic;
+    }
+
+    /* Botón de reset */
+    #resetButton {
+        margin: 10px auto;
+        display: block;
+        background-color: #ff4d4d;
+        color: white;
+        font-weight: bold;
+        padding: 10px 20px;
+        cursor: pointer;
+        text-transform: uppercase;
+        outline: none;
+        border: 1px solid #ff0040;
+        clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+        box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+        transition: all 0.3s ease;
+    }
+
+    #resetButton:hover {
+        color: #ff0040;
+        background-color: #cc0000;
+        border-color: #ff0040;
+        box-shadow: 0 0 15px #ff0040, 0 0 30px #ff0040, 0 0 45px #ff0040;
+    }
+
+    /* Botones estilizados */
+    .button {
+        padding: 10px 20px;
+        font-size: 12px;
+        font-weight: bold;
+        color: #fff;
+        background-color: #800040;
+        cursor: pointer;
+        text-transform: uppercase;
+        position: relative;
+        border: 2px solid #ff0040;
+        outline: none;
+        clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
+        box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+        transition: all 0.3s ease;
+    }
+
+    .button:hover {
+        color: #ff0040;
+        background-color: #000;
+        border-color: #ff0040;
+        box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+    }
+
+    /* Botones específicos con margen adicional */
+    .button-random {
+        margin-bottom: 20px;
+        display: inline-block;
+    }
+
+    .button-results {
+        margin-top: 10px;
+    }
+
+    .button-registrar {
+        margin-top: 20px;
+        display: inline-block;
+        width: 100%;
+        max-width: 200px;
+    }
+
+    /* Estilos para el formulario de resultados */
+    #resultForm {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    #resultForm label,
+    #resultForm select,
+    #resultForm button {
+        width: 100%;
+        max-width: 200px;
+    }
+
+    /* Estilos para el <select> */
+    select {
+        background-color: #0d0d0d;
+        color: #00eaff;
+        border: 2px solid #00eaff;
+        padding: 8px;
+        font-size: 10px;
+        font-family: 'Orbitron', sans-serif;
+        text-transform: uppercase;
+        outline: none;
+        box-shadow: 0px 0px 10px rgba(0, 234, 255, 0.7), 
+                    0px 0px 20px rgba(0, 234, 255, 0.5);
+        transition: all 0.3s ease;
+    }
+
+    select:hover {
+        border-color: #ff00ff;
+        box-shadow: 0px 0px 10px rgba(255, 0, 255, 0.7),
+                    0px 0px 20px rgba(255, 0, 255, 0.5);
+    }
+
+    select option {
+        background-color: #1a1a1a;
+        color: #00eaff;
+    }
+
+    /* Sección de equipos */
+    .team-section {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+
+    .team {
+        text-align: center;
+    }
+
+    /* Estilos de los logos */
+    .team-logo {
+        width: 80px;
+        height: 80px;
+        margin: 10px auto;
+        display: block;
+    }
+
+    .team-name {
+        font-size: 20px;
+        margin-top: 10px;
+        color: #f8f8f8;
+    }
+
+    .player-label {
+        font-size: 18px;
+        color: #ccc;
+        margin-bottom: 5px;
+    }
+
+    /* Media queries para pantallas pequeñas (celulares) */
+    @media (max-width: 768px) {
         body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #000;
-            color: #fff;
+            flex-direction: column;
+            align-items: stretch;
+            padding: 10px;
         }
 
-        .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            transition: opacity 2s ease;
-            /* Efecto de fade-out */
-        }
-
-        /* Contenedor principal */
-        .container {
-            text-align: center;
-            background-color: #333333;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.1);
-            width: 400px;
-            margin-right: 300px;
-        }
-
-        /* Contenedor del leaderboard a la derecha  */
+        .container,
         .leaderboard {
-            position: absolute;
-            right: 70px;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: #444444;
-            width: 200px;
-            padding: 15px;
-            border-radius: 10px;
-            color: #fff;
+            width: 90%;
+            max-width: 400px;
+            margin: 20px auto;
         }
 
-        /* Título del leaderboard */
-        .leaderboard h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
-            color: #ffcc00;
-        }
-
-        /* Lista de jugadores y puntuaciones */
-        .leaderboard ul {
-            list-style-type: none;
-            padding: 0;
-            font-size: 16px;
-        }
-
-        /* Estilo del título principal */
         h1 {
-            color: #000;
-            font-weight: bold;
-            text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000;
+            font-size: 24px;
         }
 
         h2 {
-            color: #f8f8f8;
-            font-style: italic;
-        }
-
-        /* Botón de reset, estilizado para que resalte */
-        #resetButton {
-            position: relative;
-            top: -150px;
-            left: 126px;
-            background-color: #ff4d4d;
-            color: white;
-            font-weight: bold;
-            padding: 10px 20px;
-            transition: background-color 0.3s ease;
-            cursor: pointer;
-            border: none;
-            outline: none;
-        }
-
-        /* Forma con triángulos a los lados */
-        #resetButton::before,
-        #resetButton::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            width: 0;
-            height: 100%;
-            border-style: solid;
-            transition: 0.3s;
-        }
-
-        #resetButton::before {
-            left: -10px;
-            border-width: 0 10px 100% 0;
-            border-right-color: #ff4d4d;
-        }
-
-        #resetButton::after {
-            right: -10px;
-            border-width: 0 0 100% 10px;
-            border-left-color: #ff4d4d;
-        }
-
-        #resetButton:hover {
-            background-color: #cc0000;
-        }
-
-        /* Estilo de botones cyberpunk con triángulos en los extremos */
-        .button {
-            padding: 10px 20px;
-            font-size: 12px;
-            font-weight: bold;
-            color: #fff;
-            background-color: #800040;
-            cursor: pointer;
-            text-transform: uppercase;
-            position: relative;
-            border: 2px solid #ff0040; /* Borde rojo neón */
-            outline: none;
-            clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
-            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff; /* Sombra cian */
-            transition: all 0.3s ease;
-        }
-
-        /* Efecto al pasar el cursor sobre el botón */
-        .button:hover {
-            color: #ff0040;
-            background-color: #000;
-            border-color: #ff0040; /* Mantener el borde rojo al hacer hover */
-            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff; /* Sombra cian solo en hover */
-        }
-
-        /* Botones específicos con margen adicional */
-        .button-random {
-            margin-bottom: 20px;
-        }
-
-        .button-results {
-            margin-top: 10px;
-        }
-
-        .button-registrar {
-            margin-top: 20px; /* Añade un margen superior para separar el botón */
-            background-color: #800040; /* Fondo similar a los otros botones */
-            }
-
-        /* Estilos para el botón dentro del formulario de resultados */
-        #resultForm button {
-            padding: 10px;
-            font-size: 12px;
-            font-weight: bold;
-            color: #fff;
-            background-color: #800040;
-            cursor: pointer;
-            text-transform: uppercase;
-            position: relative;
-            border: 1px solid #ff0040; /* Borde rojo neón */
-            outline: none;
-            clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
-            margin-top: 10px; /* Espacio adicional para mejorar la legibilidad */
-            transition: all 0.3s ease;
-        }
-
-        /* Efecto al pasar el cursor sobre el botón del formulario */
-        #resultForm button:hover {
-            color: #ff0040;
-            background-color: #000;
-            border-color: #ff0040;
-            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff; /* Sombra cian en hover individual */
-        }
-
-        /* Estilo para el botón de reset */
-        #resetButton {
-            position: relative;
-            top: -150px;
-            left: 126px;
-            background-color: transparent;
-            color: white;
-            font-weight: bold;
-            padding: 10px 20px;
-            cursor: pointer;
-            text-transform: uppercase;
-            outline: none;
-            border: 1px solid #ff0040; /* Borde rojo neón */
-            clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
-            box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
-            transition: all 0.3s ease;
-        }
-
-        #resetButton:hover {
-            color: #ff0040;
-            background-color: #000;
-            border-color: #ff0040;
-            box-shadow: 0 0 15px #ff0040, 0 0 30px #ff0040, 0 0 45px #ff0040;
-        }
-
-        /* Estilos para el <select> */
-        select {
-            background-color: #0d0d0d;
-            color: #00eaff;
-            border: 2px solid #00eaff;
-            padding: 8px;
-            font-size: 10px;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
-            outline: none;
-            box-shadow: 0px 0px 10px rgba(0, 234, 255, 0.7), 
-                        0px 0px 20px rgba(0, 234, 255, 0.5);
-            transition: all 0.3s ease;
-        }
-
-        /* Efecto hover en el <select> */
-        select:hover {
-            border-color: #ff00ff;
-            box-shadow: 0px 0px 10px rgba(255, 0, 255, 0.7),
-                        0px 0px 20px rgba(255, 0, 255, 0.5);
-        }
-
-        /* Opciones dentro del <select> */
-        select option {
-            background-color: #1a1a1a;
-            color: #00eaff;
-        }
-
-
-        /* Sección de equipos */
-        .team-section {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-
-        .team {
-            text-align: center;
-        }
-
-        /* Estilos de los logos */
-        .team-logo {
-            width: 80px;
-            height: 80px;
-            margin: 10px auto;
-            display: block;
-        }
-
-        .team-name {
-            font-size: 20px;
-            margin-top: 10px;
-            color: #f8f8f8;
-        }
-
-        .player-label {
             font-size: 18px;
-            color: #ccc;
-            margin-bottom: 5px;
         }
-    </style>
+
+        select {
+            font-size: 14px;
+        }
+
+        .button,
+        #resetButton {
+            width: 100%;
+            max-width: 200px;
+        }
+    }
+
+    /* Media queries para pantallas muy pequeñas (menos de 480px) */
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 20px;
+        }
+
+        h2 {
+            font-size: 16px;
+        }
+
+        .button,
+        #resetButton {
+            padding: 8px;
+        }
+
+        #resultForm select,
+        #resultForm button {
+            font-size: 12px;
+        }
+    }
+</style>
+
 </head>
 
 <body>
