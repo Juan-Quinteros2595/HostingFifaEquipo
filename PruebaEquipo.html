@@ -5,17 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Copa Mundial Fifa Old School</title>
-    <style>
+<style>
     /* Estilos generales */
     body {
-        font-family: Arial, sans-serif;
+        font-family: 'Courier New', Courier, monospace;
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
         margin: 0;
         background-color: #000;
-        color: #fff;
+        color: #00ff99; /* Color LED predeterminado */
     }
 
     .video-background {
@@ -67,16 +67,53 @@
         font-size: 16px;
     }
 
-    /* Estilo del título principal */
+    /* Estilo del título principal con animación de color */
     h1 {
-        color: #000;
+        color: #ff0000;
         font-weight: bold;
         text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000;
+        animation: colorChange 4s infinite alternate;
     }
 
+    @keyframes colorChange {
+        0% {
+            color: #ff0000;
+            text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 15px #ff0000;
+        }
+        50% {
+            color: #00ff99;
+            text-shadow: 0 0 5px #00ff99, 0 0 10px #00ff99, 0 0 15px #00ff99;
+        }
+        100% {
+            color: #ff0099;
+            text-shadow: 0 0 5px #ff0099, 0 0 10px #ff0099, 0 0 15px #ff0099;
+        }
+    }
+
+    /* Estilo para el título "Nuevos Equipos" con efecto glitch */
     h2 {
-        color: #f8f8f8;
+        color: #fee801;
         font-style: italic;
+        border: 2px solid #000;
+        display: inline-block;
+        padding: 5px 10px;
+        position: relative;
+        overflow: hidden;
+        font-family: 'Courier New', Courier, monospace;
+        animation: glitch 2s infinite;
+    }
+
+    /* Animación de glitch para h2 */
+    @keyframes glitch {
+        0% {
+            text-shadow: 2px 2px #ff0000, -2px -2px #00ff99;
+        }
+        50% {
+            text-shadow: -2px -2px #ff0000, 2px 2px #00ff99;
+        }
+        100% {
+            text-shadow: 2px -2px #ff0000, -2px 2px #00ff99;
+        }
     }
 
     /* Botón de reset */
@@ -108,29 +145,32 @@
         padding: 10px 20px;
         font-size: 12px;
         font-weight: bold;
-        color: #fff;
-        background-color: #800040;
+        color: #00ff99;
+        background-color: transparent;
         cursor: pointer;
         text-transform: uppercase;
         position: relative;
-        border: 2px solid #ff0040;
+        border: 2px solid #00ff99;
         outline: none;
         clip-path: polygon(10% 0, 90% 0, 100% 50%, 90% 100%, 10% 100%, 0 50%);
-        box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+        box-shadow: 0 0 10px #00ff99, 0 0 20px #00ff99, 0 0 30px #00ff99;
         transition: all 0.3s ease;
     }
 
     .button:hover {
-        color: #ff0040;
+        color: #ff0099;
         background-color: #000;
-        border-color: #ff0040;
-        box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+        border-color: #ff0099;
+        box-shadow: 0 0 10px #ff0099, 0 0 20px #ff0099, 0 0 30px #ff0099;
     }
 
     /* Botones específicos con margen adicional */
     .button-random {
+        margin-top: 10px;
         margin-bottom: 20px;
-        display: inline-block;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .button-results {
@@ -169,15 +209,13 @@
         font-family: 'Orbitron', sans-serif;
         text-transform: uppercase;
         outline: none;
-        box-shadow: 0px 0px 10px rgba(0, 234, 255, 0.7), 
-                    0px 0px 20px rgba(0, 234, 255, 0.5);
+        box-shadow: 0px 0px 10px rgba(0, 234, 255, 0.7), 0px 0px 20px rgba(0, 234, 255, 0.5);
         transition: all 0.3s ease;
     }
 
     select:hover {
         border-color: #ff00ff;
-        box-shadow: 0px 0px 10px rgba(255, 0, 255, 0.7),
-                    0px 0px 20px rgba(255, 0, 255, 0.5);
+        box-shadow: 0px 0px 10px rgba(255, 0, 255, 0.7), 0px 0px 20px rgba(255, 0, 255, 0.5);
     }
 
     select option {
@@ -210,10 +248,74 @@
         color: #f8f8f8;
     }
 
+    /* Estilo para "Jugador 1" y "Jugador 2" con bordes en las letras */
     .player-label {
         font-size: 18px;
         color: #ccc;
         margin-bottom: 5px;
+        text-shadow: -1px -1px 0 #7b1346, 1px -1px 0 #7b1346, -1px 1px 0 #7b1346, 1px 1px 0 #7b1346;
+    }
+
+
+
+    /* Estilos de la ventana de estado */
+    .status-window {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(10, 10, 30, 0.85); /* Fondo oscuro con transparencia */
+    border: 2px solid #0ff; /* Borde color cian */
+    color: #0ff; /* Texto color cian */
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2em;
+    display: none; /* Oculta por defecto */
+    border-radius: 8px;
+    box-shadow: 0 0 10px #0ff, 0 0 20px #0ff; /* Efecto de neón */
+    z-index: 1000;
+    animation: fadeIn 0.3s ease; /* Animación de entrada */
+    }
+    
+    .status-window p {
+    position: relative;
+    color: #00e6e6;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    animation: glitch 2s infinite;
+    }
+
+    @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+    }
+
+    /* Estilos para el botón de mute/unmute */
+    .mute-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 30px; /* Ajusta el tamaño aquí */
+        height: 30px;
+        cursor: pointer;
+        filter: drop-shadow(0 0 5px rgba(0, 255, 255, 0.7)) 
+                drop-shadow(0 0 10px rgba(255, 0, 255, 0.6)) 
+                drop-shadow(0 0 15px rgba(0, 255, 255, 0.4));
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .mute-btn:hover {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 8px rgba(0, 255, 255, 0.9)) 
+                drop-shadow(0 0 12px rgba(255, 0, 255, 0.8)) 
+                drop-shadow(0 0 18px rgba(0, 255, 255, 0.6));
+    }
+
+    .mute-btn img {
+        width: 100%;
+        height: 100%;
     }
 
     /* Media queries para pantallas pequeñas (celulares) */
@@ -272,6 +374,7 @@
     }
 </style>
 
+
 </head>
 
 <body>
@@ -280,6 +383,18 @@
         <source src="VideoEquipos.mp4" type="video/mp4">
         Tu navegador no soporta la reproducción de video.
     </video>
+
+    <!-- Elemento de audio -->
+    <audio id="audio" loop autoplay>
+        <source src="MusicaFondoEquipo.mp3" type="audio/mp3">
+        Tu navegador no soporta la reproducción de audio.
+    </audio>
+
+    <!-- Botón de mute/unmute -->
+    <div class="mute-btn" onclick="toggleMute()">
+        <img id="muteIcon" src="Speaker_Icon.svg" alt="Mute/Unmute Icon">
+    </div>
+
     <!-- Contenedor principal -->
     <div class="container">
         <h1>Copa Mundial Fifa Old School</h1>
@@ -328,6 +443,11 @@
 
     <button onclick="confirmarReset()" id="resetButton" class="button">Resetear Leaderboard</button>
 
+    <div id="status-window" class="status-window">
+        <p id="status-message"></p>
+    </div>
+
+
     <script>
         let jugadores = {};
         const savedPlayers = JSON.parse(localStorage.getItem("playerNames")) || [];
@@ -335,7 +455,31 @@
             jugadores[player] = { partidasJugadas: 0, partidasGanadas: 0 };
         });
 
+        // Obtener elementos de audio y el icono
+        const audio = document.getElementById('audio');
+        const muteIcon = document.getElementById('muteIcon');
+        let isAudioPlaying = false;
+
+        // Función para alternar el mute/unmute
+        function toggleMute() {
+            if (!isAudioPlaying) {
+                // Reproducir audio en la primera interacción
+                audio.play().then(() => {
+                    isAudioPlaying = true;
+                    audio.muted = false;
+                    muteIcon.src = 'Speaker_Icon.svg';
+                }).catch(error => {
+                    console.log("La reproducción automática fue bloqueada");
+                });
+            } else {
+                // Alternar entre mute/unmute
+                audio.muted = !audio.muted;
+                muteIcon.src = audio.muted ? 'Mute_Icon.svg' : 'Speaker_Icon.svg';
+            }
+        }
+
         function toggleAndLoadResults() {
+            showStatusMessage("Cargando Resultados...");
             const resultForm = document.getElementById("resultForm");
             if (resultForm.style.visibility === "hidden" || resultForm.style.visibility === "") {
                 cargarJugadoresEnSelectores();
@@ -347,6 +491,7 @@
         }
 
         function registrarResultado() {
+            showStatusMessage("Cargando Resultados...");
             const player1 = document.getElementById("player1Select").value;
             const player2 = document.getElementById("player2Select").value;
             const winner = document.getElementById("winnerSelect").value;
@@ -405,46 +550,86 @@
             });
         }
 
+    // Actualizar la función showRandomTeams para agregar la animación de selección aleatoria
         function showRandomTeams() {
-            const teams = [
-                { name: "Argentina", logo: "https://fifastatic.fifaindex.com/FIFA24/teams/dark/1369.png" },
-                { name: "Francia", logo: "https://fifastatic.fifaindex.com/FIFA24/teams/dark/1335.png" },
-                { name: "Alemania", logo: "https://fifastatic.fifaindex.com/FIFA24/teams/dark/1337.png" },
-                { name: "Brasil", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Logo_Brasil.png" },
-                { name: "España", logo: "https://fifastatic.fifaindex.com/FIFA24/teams/dark/1362.png" },
-                { name: "Portugal", logo: "https://fifastatic.fifaindex.com/FIFA24/teams/dark/1354.png" },
-                { name: "Inglaterra", logo: "https://fifastatic.fifaindex.com/FIFA24/teams/dark/1318.png" },
-                { name: "Italia", logo: "https://fifastatic.fifaindex.com/FIFA24/teams/dark/1343.png" },
-                { name: "FC Barcelona", logo: "https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg" },
-                { name: "Manchester City", logo: "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg" },
-                { name: "Real Madrid", logo: "https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg" },
-                { name: "Paris Saint-Germain", logo: "https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg" },
-                { name: "Bayern München", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1f/FC_Bayern_München_logo_%282017%29.svg" },
-                { name: "Atlético de Madrid", logo: "https://upload.wikimedia.org/wikipedia/en/f/f4/Atletico_Madrid_2017_logo.svg" },
-                { name: "Chelsea", logo: "https://upload.wikimedia.org/wikipedia/en/c/cc/Chelsea_FC.svg" },
-                { name: "Arsenal", logo: "https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg" },
-                { name: "Liverpool", logo: "https://upload.wikimedia.org/wikipedia/en/0/0c/Liverpool_FC.svg" },
-                { name: "Manchester United", logo: "https://upload.wikimedia.org/wikipedia/en/7/7a/Manchester_United_FC_crest.svg" },
-                { name: "Borussia Dortmund", logo: "https://upload.wikimedia.org/wikipedia/commons/6/67/Borussia_Dortmund_logo.svg" },
-                { name: "Napoli", logo: "https://upload.wikimedia.org/wikipedia/commons/2/28/SSC_Neapel.svg" },
-                { name: "Juventus de Turín", logo: "https://upload.wikimedia.org/wikipedia/en/6/6a/Juventus_FC_2017_logo.svg" }
-            ];
+        showStatusMessage("Generando equipos...");    
+        const teams = [
+        {name: "Argentina", logo: "Equipos/Argentina.jpg" },
+        {name: "Francia", logo: "Equipos/Francia.jpg" },
+        {name: "Alemania", logo: "Equipos/Alemania.jpg" },
+        {name: "Brasil", logo: "Equipos/Brasil.jpg" },
+        {name: "España", logo: "Equipos/España.jpg" },
+        {name: "Portugal", logo: "Equipos/Portugal.jpg" },
+        {name: "Inglaterra", logo: "Equipos/Inglaterra.jpg" },
+        {name: "Italia", logo: "Equipos/Italia.svg" },
+        {name: "FC Barcelona", logo: "Equipos/Barcelona.svg" },
+        {name: "Manchester City", logo: "Equipos/ManchesterCity.svg" },
+        {name: "Atletico Madrid", logo: "Equipos/AtleticoMadrid.svg" },
+        {name: "Arsenal", logo: "Equipos/Arsenal.png" },
+        {name: "Bayern de Múnich", logo: "Equipos/Bayern.svg" },
+        {name: "Borussia Dortmund", logo: "Equipos/BorussiaDortmund.svg" },
+        {name: "Chelsea", logo: "Equipos/Chelsea_FC.jpg" },
+        {name: "Liverpool FC", logo: "Equipos/Liverpool.svg" },
+        {name: "Manchester United", logo: "Equipos/ManchesterFC.jpg" },
+        {name: "Napoli", logo: "Equipos/Napoli.jpg" },
+        {name: "París Saint-Germain", logo: "Equipos/PSG.svg" },
+        {name: "Real Madrid", logo: "Equipos/RealMadrid.png" },
+        {name: "Juventus de Turín", logo: "Equipos/Juventus.svg" },
+        // Agrega más equipos aquí si es necesario
+        ];
 
-        let team1, team2;
-        do {
-            team1 = teams[Math.floor(Math.random() * teams.length)];
-            team2 = teams[Math.floor(Math.random() * teams.length)];
-        } while (team1.name === team2.name);  // Evita seleccionar el mismo equipo dos veces
+        // Elementos de los logos y nombres de equipo
+        const teamLogo1 = document.getElementById("teamLogo1");
+        const teamLogo2 = document.getElementById("teamLogo2");
+        const teamName1 = document.getElementById("teamName1");
+        const teamName2 = document.getElementById("teamName2");
 
-        document.getElementById("teamLogo1").src = team1.logo;
-        document.getElementById("teamLogo1").style.display = "block";
-        document.getElementById("teamName1").textContent = team1.name;
+        // Variables para almacenar los índices finales
+        let finalIndex1, finalIndex2;
 
-        document.getElementById("teamLogo2").src = team2.logo;
-        document.getElementById("teamLogo2").style.display = "block";
-        document.getElementById("teamName2").textContent = team2.name;
+        // Función para animar la selección aleatoria de equipos
+        function animateTeamsSelection(playerLogo, playerName, onComplete) {
+            let count = 0;
+            const interval = setInterval(() => {
+                // Seleccionar un equipo aleatorio
+                const randomIndex = Math.floor(Math.random() * teams.length);
+        const randomTeam = teams[randomIndex];
+
+        // Mostrar el logo y el nombre del equipo aleatorio
+        playerLogo.src = randomTeam.logo;
+        playerName.textContent = randomTeam.name;
+        playerLogo.style.display = "block";
+
+        count++;
+                // Parar la animación después de cierto número de iteraciones
+                if (count > 15) { // Ajusta el número de iteraciones según el tiempo deseado
+            clearInterval(interval);
+        onComplete(randomIndex); // Llama a la función callback con el índice final
+                }
+            }, 100); // Intervalo de tiempo entre cambios (en milisegundos)
+        }
+
+        // Ejecutar la animación de selección para ambos jugadores y obtener los índices finales
+        animateTeamsSelection(teamLogo1, teamName1, (index) => {
+            finalIndex1 = index;
+        });
+        animateTeamsSelection(teamLogo2, teamName2, (index) => {
+            finalIndex2 = index;
+        });
     }
 
+    function showStatusMessage(message) {
+        const statusWindow = document.getElementById('status-window');
+        const statusMessage = document.getElementById('status-message');
+
+        statusMessage.textContent = message;
+        statusWindow.style.display = 'block';
+
+        // Ocultar el mensaje automáticamente después de 3 segundos
+        setTimeout(() => {
+            statusWindow.style.display = 'none';
+        }, 3000);
+    }
 
 
         function confirmarReset() {
@@ -463,7 +648,7 @@
                 actualizarLeaderboard();
             }
         });
+
     </script>
 </body>
-
 </html>
